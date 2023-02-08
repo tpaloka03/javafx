@@ -1,0 +1,117 @@
+
+package javafxplhr3;
+
+import static java.util.Collections.rotate;
+import javafx.animation.AnimationTimer;
+import javafx.animation.RotateTransition;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.event.EventType;
+import javafx.geometry.Point3D;
+import javafx.scene.AccessibleAttribute;
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.PointLight;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.stage.Stage;
+import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
+
+
+public class Javafxplhr4 extends Application {
+    
+     final static int WINDOW_WIDTH = 1024;
+    final static int WINDOW_HEIGHT = 720;
+
+    @Override
+    public void start(Stage primaryStage) {
+  
+        Box b = new Box(1400, 300, 1400);
+        b.setTranslateY(300);
+        Box kybos = new Box();
+       kybos.setWidth(200.0);
+       kybos.setHeight(200.0);
+       kybos.setDepth(200.0);
+       PhongMaterial m = new PhongMaterial();
+       m.setDiffuseColor(Color.RED);
+       kybos.setMaterial(m);
+        b.setRotationAxis(new Point3D(0, 1, 0));
+        b.setRotate(45);
+        Group g = new Group(b, kybos);
+        g.setTranslateX(WINDOW_WIDTH / 2);
+        g.setTranslateY(WINDOW_HEIGHT / 2);
+        Scene scn = new Scene(g, WINDOW_WIDTH, WINDOW_HEIGHT);
+        Camera cam = new PerspectiveCamera();
+        scn.setCamera(cam);
+        scn.setFill(Color.DARKGRAY);
+        RotateTransition rotate = new RotateTransition();  
+          rotate.setAxis(Rotate.Z_AXIS);  
+          
+        primaryStage.setScene(scn);
+         scn.setOnKeyPressed(event->{
+        switch(event.getCode()){case A:kybos.translateXProperty()
+                .set(kybos.getTranslateX()-10);
+        kybos.setRotate(kybos.getRotate()-20);  rotate.setByAngle(480);  
+             rotate.setCycleCount(10);  
+               rotate.setDuration(Duration.millis(10000));  
+               rotate.setAutoReverse(true);  
+                     rotate.setNode(kybos);  
+                         rotate.play();break;
+        case D:kybos.translateXProperty()
+                .set(kybos.getTranslateX()+10);
+        kybos.setRotate(kybos.getRotate()+20);  rotate.setByAngle(480);  
+             rotate.setCycleCount(10);  
+               rotate.setDuration(Duration.millis(10000));  
+               rotate.setAutoReverse(true);  
+                     rotate.setNode(kybos);  
+                         rotate.play();break;
+         
+            case W:kybos.translateYProperty()
+                .set(kybos.getTranslateY()-10);
+        kybos.setRotate(kybos.getRotate()-20);  rotate.setByAngle(480);  
+             rotate.setCycleCount(10);  
+               rotate.setDuration(Duration.millis(10000));  
+               rotate.setAutoReverse(true);  
+                     rotate.setNode(kybos);  
+                         rotate.play();break;
+        case S:kybos.translateYProperty()
+                .set(kybos.getTranslateY()+10);
+            kybos.setRotate(kybos.getRotate()+20 );rotate.setByAngle(480);  
+             rotate.setCycleCount(10);  
+               rotate.setDuration(Duration.millis(10000));  
+               rotate.setAutoReverse(true);  
+                     rotate.setNode(kybos);  
+                         rotate.play();break;
+            
+       }
+       
+       });
+      
+       primaryStage.addEventHandler(ScrollEvent.SCROLL,
+               event->{
+               double movement =event.getDeltaY();
+               g.translateZProperty().
+                       set(g.getTranslateZ()+movement);
+               
+               
+               
+               
+               });
+       
+       primaryStage.setScene(scn);
+       
+       primaryStage.show();
+    }
+
+    
+    public static void main(String[] args) {
+        launch(args);
+    }}
+
